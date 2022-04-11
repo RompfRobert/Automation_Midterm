@@ -1,4 +1,3 @@
-from tracemalloc import start
 import scrapy
 from ..items import HomeAssignementItem
 from datetime import date, timedelta
@@ -35,7 +34,7 @@ class HomeAssignement(scrapy.Spider):
         # Container
         artists = response.css('.o-chart-results-list-row-container')
     
-        counter = 1
+        counter = 0
         with open("all_artists.csv", 'a', newline='') as all_file:
             cw_all = csv.writer(all_file)
             with open("artists.csv", 'a', newline='') as file: 
@@ -56,8 +55,8 @@ class HomeAssignement(scrapy.Spider):
                     if counter <= 5:
                         top5_artists.append(items['name'])
                         csv_writer.writerow(top5_artists)
-                    elif counter == 5:
-                        self.create_csv()
                     counter += 1
                     yield items
-                    
+        
+        if counter == 3:
+            self.create_csv()                
