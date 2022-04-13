@@ -130,3 +130,4 @@ dmypy.json
 
 # Client secret file
 client_secret_file.json
+service_account.json

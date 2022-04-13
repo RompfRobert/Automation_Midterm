@@ -28,7 +28,7 @@ class BillboardSpider(scrapy.Spider):
             yield(scrapy.Request(f'https://www.billboard.com/charts/artist-100/{today - timedelta(i * 7)}'))
 
 process = CrawlerProcess(settings = {
-    'FEED_URI': f'artists({today})-{last_month}().csv',
+    'FEED_URI': f'artists({today})-({last_month}).csv',
     'FEED_FORMAT': 'csv'
 })
 
@@ -36,8 +36,8 @@ process.crawl(BillboardSpider)
 process.start()
 
 def get_top_artists():
-    df = pd.read_csv(f'artists({today})-{last_month}).csv')
-    with open(f'top-artists({today})-{last_month}).csv', 'w', newline='') as file:
+    df = pd.read_csv(f'artists({today})-({last_month}).csv')
+    with open(f'top-artists({today})-({last_month}).csv', 'w', newline='') as file:
         artists = df.loc[df['rank'] < 6].set_index('name')
         unsorted_artists = set(artists.index)
         sorted_artists = list(unsorted_artists)
