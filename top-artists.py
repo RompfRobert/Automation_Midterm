@@ -3,6 +3,8 @@ from scrapy.crawler import CrawlerProcess
 from datetime import date, timedelta
 import pandas as pd
 import csv
+import time
+from drive_upload import upload
 
 today = date.today()
 last_month = date.today()-timedelta(21)
@@ -44,5 +46,11 @@ def get_top_artists():
         sorted_artists.sort()
         writer = csv.writer(file)
         writer.writerow(sorted_artists)
+
+def main():
+    time.sleep(1)
+    get_top_artists()
+    time.sleep(1)
+    upload(today, last_month)
     
-get_top_artists()
+main()

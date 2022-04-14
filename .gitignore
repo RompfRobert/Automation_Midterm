@@ -131,3 +131,6 @@ dmypy.json
 # Client secret file
 client_secret_file.json
 service_account.json
+credentials.json
+client_secret_425712180042-p1rrbt7p73l6s2hr9hc7td7h7pu17o1t.apps.googleusercontent.com.json
+token_drive_v3.pickle
