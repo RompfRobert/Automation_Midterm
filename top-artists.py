@@ -51,6 +51,6 @@ def main():
     time.sleep(1)
     get_top_artists()
     time.sleep(1)
-    upload(today, last_month)
+    upload()
     
 main()
