@@ -29,5 +29,3 @@ def upload():
             body=metadata,
             media_body=media,
             fields='id').execute()
-
-upload()
