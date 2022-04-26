@@ -44,7 +44,7 @@ def get_top_artists():
     sorted_artists.sort()
     df2 = pd.DataFrame(index=sorted_artists)
     df2.index.name='Artists'
-    df2['Ratings'] = ''
+    df2['Average Ratings'] = ''
     df2.to_csv(f'top-artists({today})-({last_month}).csv')
 
 def main():
