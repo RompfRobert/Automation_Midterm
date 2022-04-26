@@ -6,7 +6,7 @@ today = date.today()
 last_month = date.today()-timedelta(21)
 
 def upload():
-    CLIENT_SECRET_FILE = 'client_secret_file.json'
+    CLIENT_SECRET_FILE = 'credentials.json'
     API_NAME = 'drive'
     API_VERSION = 'v3'
     SCOPES = ['https://www.googleapis.com/auth/drive']
