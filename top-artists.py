@@ -1,9 +1,9 @@
 import scrapy
 from scrapy.crawler import CrawlerProcess
 from datetime import date, timedelta
-import pandas as pd
 import time
 from drive_upload import upload
+from get_top_artists import get_top_artists
 
 today = date.today()
 last_month = date.today()-timedelta(21)
@@ -35,17 +35,6 @@ process = CrawlerProcess(settings = {
 
 process.crawl(BillboardSpider)
 process.start()
-
-def get_top_artists():
-    df = pd.read_csv(f'artists({today})-({last_month}).csv')
-    artists = df.loc[df['rank'] < 6].set_index('name')
-    unsorted_artists = set(artists.index)
-    sorted_artists = list(unsorted_artists)
-    sorted_artists.sort()
-    df2 = pd.DataFrame(index=sorted_artists)
-    df2.index.name='Artists'
-    df2['Average Ratings'] = ''
-    df2.to_csv(f'top-artists({today})-({last_month}).csv')
 
 def main():
     time.sleep(1)
