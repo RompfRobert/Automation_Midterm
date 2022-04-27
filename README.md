@@ -54,13 +54,13 @@ Before running the script it is important to check whether 'credentials.json' is
 In a linux environment, you can use Crontab and create a cronjob to run every month. 
 
 Open terminal and type: 
-```
-crontab -e
+```bash
+crontab -e 
 ```
 If you are using crontab for the first time then it will prompt you to choose an editor, while nano is considered easiest the default editor we will be using is Vim. 
 
 Type 2 and press Enter.
-``` 
+```bash
 Select an editor.  To change later, run 'select-editor'.
   1. /bin/nano        <---- easiest
   2. /usr/bin/vim.basic
@@ -70,7 +70,7 @@ Select an editor.  To change later, run 'select-editor'.
 Choose 1-4 [1]:
 ```
 Next we will need to navigate to the end of the comments, press I on your keyboard to enter insert mode and now we can type the following to run the command every month.
-```
+```bash
 0 0 1 * * cd ~/enter/file/path/here && python3 top-artists.py
 ```
 ## Google Script
@@ -82,7 +82,7 @@ To correctly set up Google Scripts for the newly uploaded top-artists, log in to
 
 In case you aren't able to open the files mentioned above, you can find them here:
 ### Code.js / Code.gs
-```
+```javascript
 function myFunction() {
   
   const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
@@ -115,7 +115,7 @@ function myFunction() {
 }
 ```
 ### getAverageRatings.js / getAverageRatings.gs
-```
+```javascript
 function myFunction() {
   // Open a form by ID and log the responses to each question.
   // Copy + Paste the ID of the Google Drive folder into the id variable below
