@@ -48,7 +48,129 @@ Every request your application sends to the Drive API must include an authorizat
 > 1. The OAuth client created screen appears, showing your new Client ID and Client secret. __DO NOT SHOW THESE TO ANYONE!__ 
 > 1. Download the JSON file and rename it to ***'credentials.json'*** and move/copy it into the folder where the script resides.
 ***
-## Web-Scraping Script Setup
+## Web-Scraping and Automation
 Before running the script it is important to check whether 'credentials.json' is located inside the same folder as the python script is in. Fortunately, there is no need to pip install anything as the virtual environment (.venv) is provided as well.
 ### Linux Server Crontab
+In a linux environment, you can use Crontab and create a cronjob to run every month. 
 
+Open terminal and type: 
+```
+crontab -e
+```
+If you are using crontab for the first time then it will prompt you to choose an editor, while nano is considered easiest the default editor we will be using is Vim. 
+
+Type 2 and press Enter.
+``` 
+Select an editor.  To change later, run 'select-editor'.
+  1. /bin/nano        <---- easiest
+  2. /usr/bin/vim.basic
+  3. /usr/bin/vim.tiny
+  4. /bin/ed
+
+Choose 1-4 [1]:
+```
+Next we will need to navigate to the end of the comments, press I on your keyboard to enter insert mode and now we can type the following to run the command every month.
+```
+0 0 1 * * cd ~/enter/file/path/here && python3 top-artists.py
+```
+## Google Script
+To correctly set up Google Scripts for the newly uploaded top-artists, log in to your [Google Drive](https://drive.google.com/drive/u/0/my-drive).
+> 1. Open top-artists Google sheet.
+> 1. Click on Extensions > Apps Script
+> 1. Copy + Paste the contents of [Code.js](Code.js) or [Code.gs](Code.gs) into the Apps Script program.
+> 1. Under Files, click the plus Icon to Add a file and copy and paste the contents of [getAverageRatings.js](getAverageRatings.js) or [getAverageRatings.gs](getAverageRatings.gs) into the editor.
+
+In case you aren't able to open the files mentioned above, you can find them here:
+### Code.js / Code.gs
+```
+function myFunction() {
+  
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
+  const listOfArtists = sheet.getDataRange().getValues();
+
+  let artists = [];
+  for (let i = 0; i < listOfArtists.length; i++) {
+    artists.push(listOfArtists[i][0]);
+  }
+  artists.shift();
+
+  Logger.log(listOfArtists);
+  Logger.log(artists);
+
+  let form = FormApp.create('Top Artists Ranking');
+
+  form.addTextItem()
+    .setTitle('Your name:')
+    .setRequired(true);
+
+  form.addGridItem()
+    .setTitle('Rate the top artists from 1 to 5. 1 being the least liked to 5 being the most liked.')
+    .setRows(artists)
+    .setColumns(['1','2','3','4','5']);
+
+  form.setConfirmationMessage('Thank you for your response!')
+
+  Logger.log('Published URL: ' + form.getPublishedUrl());
+
+}
+```
+### getAverageRatings.js / getAverageRatings.gs
+```
+function myFunction() {
+  // Open a form by ID and log the responses to each question.
+  // Copy + Paste the ID of the Google Drive folder into the id variable below
+  const id = '';
+
+  // ---------------------------------------------------------------------------
+  let form = FormApp.openById(id);
+
+  var formResponses = form.getResponses();
+
+  var allRatingsRaw = [];
+  var allRatings = [];
+
+  for (var i = 0; i < formResponses.length; i++) {
+    var formResponse = formResponses[i];
+    var itemResponses = formResponse.getItemResponses();
+    for (var j = 0; j < itemResponses.length; j++) {
+      var itemResponse = itemResponses[j];
+      allRatingsRaw.push(itemResponse.getResponse());
+    }
+  }
+
+  Logger.log(allRatingsRaw)
+
+  let nums = [];
+  let sum = 0;
+  let results = [];
+
+  for (let i = 1; i < allRatingsRaw.length; i+=2) {
+      allRatings.push(allRatingsRaw[i]);
+  }
+
+  const count = allRatings.length;
+
+  for (let i = 0; i < allRatings[0].length; i++) {
+      nums.push(i);
+  }
+
+  for (let i = 0; i < nums.length; i++) {
+      for (let r = 0; r < allRatings.length; r++) {
+          let n = allRatings[r][nums[i]];
+          sum = parseInt(sum) + parseInt(n);
+      }
+      let result = sum / count;
+      results.push(result);
+      sum = 0;
+  }
+  Logger.log(results)
+  
+  const app = SpreadsheetApp;
+  let activeSheet = app.getActiveSpreadsheet().getActiveSheet();
+
+  // get current active sheet
+  for (let i = 0; i < results.length; i++) {
+    activeSheet.getRange(2+i, 2).setValue(results[i])
+  }
+}
+```
