@@ -50,6 +50,11 @@ Every request your application sends to the Drive API must include an authorizat
 ***
 ## Web-Scraping and Automation
 Before running the script it is important to check whether 'credentials.json' is located inside the same folder as the python script is in. Fortunately, there is no need to pip install anything as the virtual environment (.venv) is provided as well.
+### Install Necessary Python Libraries
+It is recommended that you use a virtual environment and install the necessary libraries rather than use a global environment for convenience.
+```bash
+pip3 install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib pandas scrapy
+```
 ### Linux Server Crontab
 In a linux environment, you can use Crontab and create a cronjob to run every month. 
 
