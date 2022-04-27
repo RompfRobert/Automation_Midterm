@@ -6,11 +6,11 @@ For the application to work correctly, first and foremost you will need to set u
 ### Create a project
 The next step is to create a [Google Cloud project](https://developers.google.com/workspace/guides/create-project), as that is what allows users to create, manage and enable the use of Google Cloud Services using Google APIs.
 >To create a Google Cloud project:
-    > 1. Open the Google Cloud Console.
-    > 1. At the top-left corner, click on the Navigation Menu -> IAM & Admin -> Create a Project.
-    > 1. In the Project Name field, enter a name for your project. (Warning: This cannot be changed so choose carefully).
-    > 1. Leave the location field default as is.
-    > 1. Click Create.
+> 1. Open the Google Cloud Console.
+> 1. At the top-left corner, click on the Navigation Menu -> IAM & Admin -> Create a Project.
+> 1. In the Project Name field, enter a name for your project. (Warning: This cannot be changed so choose carefully).
+> 1. Leave the location field default as is.
+> 1. Click Create.
 
 After creating a project, the console will navigate to the Dashboard page and the project will be created in a few minutes.
 
@@ -44,15 +44,11 @@ Every request your application sends to the Drive API must include an authorizat
 > 1. At the top-left, click Menu > APIs & Services > [Credentials](https://console.cloud.google.com/apis/credentials).
 > 1. Click Create Credentials > OAuth client ID
 > 1. Click Application type > Web application.
-> 1. Under Authorized redirect URIs, click '+ADD URI' and paste the following link  http://localhost:8080/ and click Create. (You can also give the client a name.)
+> 1. Under Authorized redirect URIs, click '+ADD URI' and paste the following link <u>http<nolink>://localhost:8080/</u> and click Create. (You can also give the client a name.)
 > 1. The OAuth client created screen appears, showing your new Client ID and Client secret. __DO NOT SHOW THESE TO ANYONE!__ 
-> 1. Download the JSON file and rename it to ***'credentials.json'***
+> 1. Download the JSON file and rename it to ***'credentials.json'*** and move/copy it into the folder where the script resides.
 ***
+## Web-Scraping Script Setup
+Before running the script it is important to check whether 'credentials.json' is located inside the same folder as the python script is in. Fortunately, there is no need to pip install anything as the virtual environment (.venv) is provided as well.
+### Linux Server Crontab
 
-```bash
-pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib csv, scrapy, pandas
-```
-or
-```bash
-pip3 install --upgrade pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib csv, scrapy, pandas
-```
